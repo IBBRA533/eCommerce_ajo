@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Makan Nasi Padang - Beranda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Background halaman */
+        body {
+            background-image: url('gambar/2.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        /* Overlay agar teks terlihat jelas */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: -1;
+        }
+        /* Warna khusus */
+        .text-gold { color: #FFD700; }
+        .bg-gold { background-color: #FFD700; }
+        .bg-maroon { background-color: #8B0000; }
+        .hover\:bg-maroon:hover { background-color: #a00000; }
+        .hover\:bg-yellow-400:hover { background-color: #facc15; }
+        .hover\:text-gold:hover { color: #FFD700; }
+
+         @keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+   <nav class="bg-black/40 backdrop-blur-md shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <span class="text-[#FFD700] text-2xl font-bold">🍛</span>
+      <h1 class="text-[#FFD700] font-bold text-xl">Nasi Padang</h1>
+    </div>
+
+    <!-- Tombol Hamburger (mobile) -->
+    <button id="menuBtn" class="md:hidden text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16m-7 6h7" />
+      </svg>
+    </button>
+
+    <!-- Menu (Desktop) -->
+    <div class="hidden md:flex space-x-8">
+      <a href="home.html" class="text-white hover:text-[#FFD700] font-medium transition">Beranda</a>
+      <a href="menu.html" class="text-white hover:text-[#FFD700] font-medium transition">Menu</a>
+      <a href="about.html" class="text-white hover:text-[#FFD700] font-medium transition">Tentang Kami</a>
+    </div>
+
+    <!-- Cart & User (Desktop) -->
+    <div class="hidden md:flex items-center space-x-4">
+      <a href="cart.html" class="relative text-white hover:text-[#FFD700]">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6M20 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2-2v4"></path>
+        </svg>
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-[#FFD700] text-[#800000] text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+      </a>
+      <span class="text-white">Halo, <span id="userName">Pengunjung</span>!</span>
+      <button onclick="logout()" class="bg-[#FFD700] text-[#800000] px-4 py-2 rounded-lg hover:bg-yellow-400 font-medium transition">
+        Keluar
+      </button>
+    </div>
+  </div>
+
+  
+<!-- Menu mobile -->
+<div id="mobileMenu" class="hidden absolute top-16 left-0 w-full bg-maroon text-white md:hidden">
+  <a href="home.html" class="block px-4 py-3 hover:bg-red-700">Beranda</a>
+  <a href="menu.html" class="block px-4 py-3 hover:bg-red-700">Menu</a>
+  <a href="about.html" class="block px-4 py-3 hover:bg-red-700">Tentang Kami</a>
+
+</div>
+</nav>
+ 
+
+    <!-- Header -->
+    <section class="bg-gradient-to-r from-maroon to-red-800 py-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Menu Lengkap</h1>
+            <p class="text-xl text-gold">Pilihan hidangan khas Minangkabau yang menggugah selera</p>
+        </div>
+    </section>
+
+    <!-- Menu Categories -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- Filter Categories -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="filterMenu('all')" class="filter-btn active bg-maroon text-white px-6 py-2 rounded-full font-medium hover:bg-red-800 transition duration-300">
+                    Semua Menu
+                </button>
+                <button onclick="filterMenu('lauk')" class="filter-btn bg-white text-maroon border-2 border-maroon px-6 py-2 rounded-full font-medium hover:bg-maroon hover:text-white transition duration-300">
+                    Lauk Pauk
+                </button>
+                <button onclick="filterMenu('sayur')" class="filter-btn bg-white text-maroon border-2 border-maroon px-6 py-2 rounded-full font-medium hover:bg-maroon hover:text-white transition duration-300">
+                    Sayuran
+                </button>
+                <button onclick="filterMenu('sambal')" class="filter-btn bg-white text-maroon border-2 border-maroon px-6 py-2 rounded-full font-medium hover:bg-maroon hover:text-white transition duration-300">
+                    Sambal
+                </button>
+                <button onclick="filterMenu('minuman')" class="filter-btn bg-white text-maroon border-2 border-maroon px-6 py-2 rounded-full font-medium hover:bg-maroon hover:text-white transition duration-300">
+                    Minuman
+                </button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Menu items will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-maroon to-red-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Info Restoran -->
+                <div>
+                    <h3 class="text-xl font-bold text-gold mb-4">Rumah Makan Nasi Padang</h3>
+                    <p class="mb-4">Cita rasa asli Minangkabau dengan resep turun temurun yang telah terjaga kualitasnya.</p>
+                </div>
+
+                <!-- Kontak -->
+                <div>
+                    <h3 class="text-xl font-bold text-gold mb-4">Kontak Kami</h3>
+                    <div class="space-y-2">
+                        <p>📍 Jl. Raya Padang No. 123, Padang, Sumatera Barat</p>
+                        <p>📞 (0751) 123-4567</p>
+                        <p>📱 WhatsApp: +62 812-3456-7890</p>
+                    </div>
+                </div>
+
+                <!-- Jam Buka -->
+                <div>
+                    <h3 class="text-xl font-bold text-gold mb-4">Jam Buka</h3>
+                    <div class="space-y-2">
+                        <p>Senin - Jumat: 08.00 - 22.00</p>
+                        <p>Sabtu - Minggu: 07.00 - 23.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-red-700 mt-8 pt-8 text-center">
+                <p>&copy; 2024 Rumah Makan Nasi Padang. Semua hak cipta dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+     <script src="./mobile.js"></script>
+</body>
+</html>
