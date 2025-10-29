@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+  <title>Lokasi Kami - Rumah Makan Nasi Padang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    
+    body {
+      background-image: url('gambar/2.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #fff;
+      position: relative;
+    }
+
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: -1;
+    }
+
+    /* Warna tema */
+    .text-gold { color: #FFD700; }
+    .bg-gold { background-color: #FFD700; }
+    .bg-maroon { background-color: #8B0000; }
+    .hover\:bg-maroon:hover { background-color: #a00000; }
+    .hover\:bg-yellow-400:hover { background-color: #facc15; }
+    .hover\:text-gold:hover { color: #FFD700; }
+
+    /* Animasi buka/tutup menu */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+    .animate-slideDown {
+      animation: slideDown 0.3s ease-out forwards;
+    }
+    .animate-slideUp {
+      animation: slideUp 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="bg-black/40 backdrop-blur-md shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+      <div class="flex items-center space-x-2">
+        <span class="text-[#FFD700] text-2xl font-bold">🍛</span>
+        <h1 class="text-[#FFD700] font-bold text-xl">Nasi Padang</h1>
+      </div>
+
+      <button id="menuBtn" class="md:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+      <div class="hidden md:flex space-x-8">
+        <a href="home.html" class="text-white hover:text-[#FFD700] font-medium transition">Beranda</a>
+        <a href="menu.html" class="text-white hover:text-[#FFD700] font-medium transition">Menu</a>
+         <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="cart.html" class="relative text-white hover:text-[#FFD700]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6M20 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2-2v4"></path>
+          </svg>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-[#FFD700] text-[#800000] text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+        </a>
+        <span class="text-white">Halo, <span id="userName">Pengunjung</span>!</span>
+        <button onclick="logout()" class="bg-[#FFD700] text-[#800000] px-4 py-2 rounded-lg hover:bg-yellow-400 font-medium transition">
+          Keluar
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden absolute top-16 left-0 w-full bg-maroon text-white md:hidden">
+      <a href="home.html" class="block px-4 py-3 hover:bg-red-700">Beranda</a>
+      <a href="menu.html" class="block px-4 py-3 hover:bg-red-700">Menu</a>
+        <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="py-16 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold text-gold mb-4">Lokasi Kami</h1>
+      <p class="text-xl text-gray-200">Kunjungi Rumah Makan Nasi Padang di jantung kota Padang</p>
+    </div>
+  </section>
+
+  <!-- Map & Address -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="bg-white text-gray-800 rounded-3xl shadow-2xl p-8 lg:p-12 border border-gold grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Map -->
+        <div class="rounded-2xl overflow-hidden border-4 border-gold shadow-lg">
+          <iframe 
+            src="https://maps.app.goo.gl/gs8GFv3HP9RwnhY48" 
+            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div>
+          <h2 class="text-3xl font-bold text-maroon mb-6">Alamat & Informasi</h2>
+          <div class="space-y-4 text-gray-700 leading-relaxed">
+            <p>📍 <strong>Alamat:</strong> Kp. Tengah, Kec. Pancur Batu, Kabupaten Deli Serdang, Sumatera Utara</p>
+            <p>📞 <strong>Telepon:</strong> 0831223321</p>
+            <p>📱 <strong>WhatsApp:</strong> 0831223321</p>
+            <p>✉️ <strong>Email:</strong> ajopadang@gmail.com</p>
+            <p class="text-maroon font-medium mt-4">
+              Kami berlokasi di dekat kampus uinsu tuntungan 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="bg-black/40 backdrop-blur-md text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h3 class="text-xl font-bold text-gold mb-3">Rumah Makan Nasi Padang</h3>
+      <p>Cita rasa autentik Minangkabau </p>
+      <p class="mt-4 text-sm">&copy; 2024 Rumah Makan Nasi Padang. Semua hak cipta dilindungi.</p>
+    </div>
+  </footer>
+
+  <script src="./mobile.js"></script>
+</body>
+</html>

@@ -6,14 +6,14 @@
     <title>Rumah Makan Nasi Padang - Beranda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Background halaman */
+     
         body {
             background-image: url('gambar/2.jpg'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
-        /* Overlay agar teks terlihat jelas */
+    
         body::before {
             content: "";
             position: fixed;
@@ -21,7 +21,7 @@
             background: rgba(0,0,0,0.6);
             z-index: -1;
         }
-        /* Warna khusus */
+       
         .text-gold { color: #FFD700; }
         .bg-gold { background-color: #FFD700; }
         .bg-maroon { background-color: #8B0000; }
@@ -51,16 +51,16 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Navigation -->
+   
    <nav class="bg-black/40 backdrop-blur-md shadow-lg sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-    <!-- Logo -->
+
     <div class="flex items-center space-x-2">
       <span class="text-[#FFD700] text-2xl font-bold">🍛</span>
       <h1 class="text-[#FFD700] font-bold text-xl">Nasi Padang</h1>
     </div>
 
-    <!-- Tombol Hamburger (mobile) -->
+    
     <button id="menuBtn" class="md:hidden text-white focus:outline-none">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -68,14 +68,14 @@
       </svg>
     </button>
 
-    <!-- Menu (Desktop) -->
+   
     <div class="hidden md:flex space-x-8">
       <a href="home.html" class="text-white hover:text-[#FFD700] font-medium transition">Beranda</a>
       <a href="menu.html" class="text-white hover:text-[#FFD700] font-medium transition">Menu</a>
-      <a href="about.html" class="text-white hover:text-[#FFD700] font-medium transition">Tentang Kami</a>
+        <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
     </div>
 
-    <!-- Cart & User (Desktop) -->
+ 
     <div class="hidden md:flex items-center space-x-4">
       <a href="cart.html" class="relative text-white hover:text-[#FFD700]">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,30 +92,25 @@
   </div>
 
   
-<!-- Menu mobile -->
+
 <div id="mobileMenu" class="hidden absolute top-16 left-0 w-full bg-maroon text-white md:hidden">
   <a href="home.html" class="block px-4 py-3 hover:bg-red-700">Beranda</a>
   <a href="menu.html" class="block px-4 py-3 hover:bg-red-700">Menu</a>
-  <a href="about.html" class="block px-4 py-3 hover:bg-red-700">Tentang Kami</a>
+  <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
 </div>
 </nav>
-    <!-- Hero Section -->
+   
     <section class="text-center py-20">
         <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             Cita Rasa <span class="text-gold">Asli</span> Minangkabau
         </h1>
         <p class="text-lg text-gray-200 mb-8 max-w-xl mx-auto">
-            Nikmati kelezatan rendang, gulai, dan hidangan khas Padang lainnya dengan resep turun temurun.
+            Nikmati kelezatan rendang, gulai, dan hidangan khas Padang lainnya .
         </p>
-        <a href="#" class="bg-gold text-maroon px-8 py-3 rounded-lg font-bold text-lg hover:bg-yellow-400 transition duration-300 transform hover:scale-105">
-            Lihat Menu
-        </a>
     </section>
 
-   
-    <!-- Featured Menu -->
     <section class="py-16 bg-cover bg-center relative" style="background-image: url('img/bg-nasipadang.jpg');">
-    <!-- Lapisan overlay transparan (supaya teks tetap jelas dibaca) -->
+  
     <div class="absolute inset-0 bg-black/40"></div>
 
     <div class="max-w-7xl mx-auto px-4 relative z-10">
@@ -126,68 +121,69 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Rendang -->
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-                <div class="h-48 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
-                    <span class="text-6xl">🥩</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white mb-2">Rendang Daging</h3>
-                    <p class="text-gray-200 text-sm mb-4">Daging sapi yang dimasak dengan santan dan rempah-rempah khas Minang</p>
-                    <p class="text-2xl font-bold text-gold mb-4">Rp 35.000</p>
-                    <button onclick="addToCart('rendang', 35000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
 
-            <!-- Ayam Pop -->
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-                <div class="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                    <span class="text-6xl">🍗</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white mb-2">Ayam Pop</h3>
-                    <p class="text-gray-200 text-sm mb-4">Ayam kampung yang dimasak dengan bumbu kuning khas Padang</p>
-                    <p class="text-2xl font-bold text-gold mb-4">Rp 28.000</p>
-                    <button onclick="addToCart('ayam-pop', 28000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
+    <!-- Rendang Daging -->
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+      <div class="h-48 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+        <img src="gambar/1.jpg" alt="Rendang Daging" class="h-full w-full object-cover">
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-bold text-white mb-2">Rendang Daging</h3>
+        <p class="text-gray-200 text-sm mb-4">Daging sapi yang dimasak dengan santan dan rempah-rempah khas Minang</p>
+        <p class="text-2xl font-bold text-gold mb-4">Rp 35.000</p>
+        <button onclick="addToCart('rendang', 35000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
 
-            <!-- Gulai -->
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-                <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-                    <span class="text-6xl">🍲</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white mb-2">Gulai Kambing</h3>
-                    <p class="text-gray-200 text-sm mb-4">Gulai kambing dengan kuah santan yang gurih dan kaya rempah</p>
-                    <p class="text-2xl font-bold text-gold mb-4">Rp 40.000</p>
-                    <button onclick="addToCart('gulai-kambing', 40000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
+    <!-- Ayam Pop -->
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+      <div class="h-48 bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center">
+        <img src="gambar/1.jpg" alt="Ayam Pop" class="h-full w-full object-cover">
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-bold text-white mb-2">Ayam Pop</h3>
+        <p class="text-gray-200 text-sm mb-4">Ayam goreng khas Minang dengan bumbu sederhana dan sambal</p>
+        <p class="text-2xl font-bold text-gold mb-4">Rp 25.000</p>
+        <button onclick="addToCart('ayam-pop', 25000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
 
-            <!-- Sambal Lado -->
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-                <div class="h-48 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
-                    <span class="text-6xl">🌶️</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white mb-2">Sambal Lado</h3>
-                    <p class="text-gray-200 text-sm mb-4">Sambal pedas khas Minang dengan cabai merah dan bumbu pilihan</p>
-                    <p class="text-2xl font-bold text-gold mb-4">Rp 15.000</p>
-                    <button onclick="addToCart('sambal-lado', 15000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
-        </div>
+    <!-- Sambal Lado -->
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+      <div class="h-48 bg-gradient-to-br from-green-400 to-green-700 flex items-center justify-center">
+        <img src="gambar/1.jpg" alt="Sambal Lado" class="h-full w-full object-cover">
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-bold text-white mb-2">Sambal Lado</h3>
+        <p class="text-gray-200 text-sm mb-4">Sambal hijau pedas khas Padang dengan ikan teri</p>
+        <p class="text-2xl font-bold text-gold mb-4">Rp 15.000</p>
+        <button onclick="addToCart('sambal-lado', 15000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
 
+    <!-- Gulai Tunjang -->
+    <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+      <div class="h-48 bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center">
+        <img src="gambar/1.jpg" alt="Gulai Tunjang" class="h-full w-full object-cover">
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-bold text-white mb-2">Gulai Tunjang</h3>
+        <p class="text-gray-200 text-sm mb-4">Kaki sapi empuk dengan kuah santan kental</p>
+        <p class="text-2xl font-bold text-gold mb-4">Rp 40.000</p>
+        <button onclick="addToCart('gulai-tunjang', 40000)" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
+
+  </div>
         <div class="text-center mt-12">
             <a href="menu.html" class="inline-block bg-maroon text-white px-8 py-3 rounded-lg font-bold hover:bg-red-800 transition duration-300">
                 Lihat Semua Menu
@@ -195,7 +191,7 @@
         </div>
     </div>
 </section>
-<!-- Promo Mahasiswa & Dosen -->
+
 <section class="py-16 bg-black/40 backdrop-blur-sm relative text-white">
   <div class="max-w-7xl mx-auto px-4">
     <div class="text-center mb-12">
@@ -211,33 +207,29 @@
       <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8 hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
         <h3 class="text-2xl font-bold text-gold mb-4">🍽️ Prasmanan Mahasiswa</h3>
         <p class="text-gray-200 mb-4">
-          Ambil sendiri menu favoritmu mulai dari <span class="text-gold font-bold">Rp 20.000</span> aja!  
+          Ambil sendiri menu favoritmu mulai dari <span class="text-gold font-bold">Rp 12.000</span> aja!  
           Bebas pilih lauk dan sayur sesuai selera.
         </p>
         <ul class="list-disc list-inside text-gray-300 mb-6">
           <li>Bebas ambil nasi & sayur</li>
-          <li>1 lauk + sambal lado</li>
-          <li>Minuman es teh manis gratis</li>
+          <li>1 lauk + sambal </li>
         </ul>
         <a href="menu.html" class="bg-gold text-maroon px-6 py-2 rounded-lg font-bold hover:bg-yellow-400 transition duration-300">
           Cek Menu Prasmanan
         </a>
       </div>
 
-      <!-- Diskon Dosen -->
+
       <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8 hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-        <h3 class="text-2xl font-bold text-gold mb-4">👨‍🏫 Diskon Dosen & Staff Kampus</h3>
+        <h3 class="text-2xl font-bold text-gold mb-4">pengantaran sekitar kampus</h3>
         <p class="text-gray-200 mb-4">
-          Dapatkan potongan harga hingga <span class="text-gold font-bold">15%</span> setiap pembelian menu paket untuk dosen & staf kampus.
+          bisa di antar ke kampus <span class="text-gold font-bold"></span> setiap pembelian menu paket untuk dosen,staf kampus dan juga mahasiswa.
         </p>
         <ul class="list-disc list-inside text-gray-300 mb-6">
           <li>Berlaku setiap hari</li>
-          <li>Pemesanan langsung di tempat</li>
-          <li>Cukup tunjukkan kartu identitas kampus</li>
         </ul>
-        <a href="about.html" class="bg-gold text-maroon px-6 py-2 rounded-lg font-bold hover:bg-yellow-400 transition duration-300">
-          Hubungi Kami
-        </a>
+      
+        
       </div>
     </div>
 
@@ -254,7 +246,7 @@
     <footer id="contact" class="bg-gradient-to-r from-maroon to-red-800 text-white py-12">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Info Restoran -->
+           
                 <div>
                     <h3 class="text-xl font-bold text-gold mb-4">Rumah Makan Nasi Padang</h3>
                     <p class="mb-4">Cita rasa asli Minangkabau dengan resep turun temurun yang telah terjaga kualitasnya.</p>
@@ -281,9 +273,9 @@
                 <div>
                     <h3 class="text-xl font-bold text-gold mb-4">Kontak Kami</h3>
                     <div class="space-y-2">
-                        <p>📍 Jl. Raya Padang No. 123, Padang, Sumatera Barat</p>
-                        <p>📞 (0751) 123-4567</p>
-                        <p>📱 WhatsApp: +62 812-3456-7890</p>
+                        <p>📍 Kp. Tengah, Kec. Pancur Batu, Kabupaten Deli Serdang, Sumatera Utara</p>
+                        <p>📞 0831223321</p>
+                        <p>📱 WhatsApp: 0831223321</p>
                         <p>✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97fef9f1f8d7f9f6e4fee7f6f3f6f9f0b9f4f8fa">[email&#160;protected]</a></p>
                     </div>
                 </div>

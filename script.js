@@ -1,39 +1,23 @@
-// JavaScript untuk Website Rumah Makan Nasi Padang
 
-// Data menu lengkap
 const menuData = [
-   
     // Lauk Pauk
-    { 
-        id: 'rendang', 
-        name: 'Rendang Daging', 
-        price: 35000, 
-        category: 'lauk', 
-      
-        description: 'Daging sapi yang dimasak dengan santan dan rempah-rempah khas Minang',
-        image: 'img/rendang.jpg'   // ✅ tambahkan ini
-    },
-    { 
-        id: 'ayam-pop', 
-        name: 'Ayam Pop', 
-        price: 28000, 
-        category: 'lauk', 
-        emoji: '🍗', 
-        description: 'Ayam kampung yang dimasak dengan bumbu kuning khas Padang',
-        image: 'img/ayam-pop.jpg'  // ✅ tambahkan ini
-    },
-    { 
-        id: 'gulai-kambing', 
-        name: 'Gulai Kambing', 
-        price: 40000, 
-        category: 'lauk', 
-        emoji: '🍲', 
-        description: 'Gulai kambing dengan kuah santan yang gurih dan kaya rempah',
-        image: 'gambar/1.jpg'
-    },
-    
-];
+    { id: 'rendang', name: 'Rendang Daging', price: 35000, category: 'lauk', description: 'Daging sapi yang dimasak dengan santan dan rempah-rempah khas Minang', image: 'gambar/1.jpg' },
+    { id: 'ayam-pop', name: 'Ayam Pop', price: 28000, category: 'lauk', description: 'Ayam kampung dengan bumbu kuning khas Padang', image: 'gambar/1.jpg' },
+    { id: 'gulai-kambing', name: 'Gulai Kambing', price: 40000, category: 'lauk', description: 'Gulai kambing dengan kuah santan kental', image: 'gambar/gulai-kambing.jpg' },
+    { id: 'dendeng-balado', name: 'Dendeng Balado', price: 38000, category: 'lauk', description: 'Daging sapi kering dengan sambal balado', image: 'gambar/dendeng.jpg' },
 
+    // Sayuran
+    { id: 'daun-singkong', name: 'Daun Singkong', price: 10000, category: 'sayur', description: 'Daun singkong rebus dengan santan', image: 'gambar/daun-singkong.jpg' },
+    { id: 'nangka', name: 'Gulai Nangka', price: 12000, category: 'sayur', description: 'Nangka muda dimasak dengan kuah santan', image: 'gambar/nangka.jpg' },
+
+    // Sambal
+    { id: 'sambal-lado', name: 'Sambal Lado', price: 15000, category: 'sambal', description: 'Sambal hijau pedas dengan ikan teri', image: 'gambar/sambal-lado.jpg' },
+    { id: 'sambal-merah', name: 'Sambal Merah', price: 12000, category: 'sambal', description: 'Sambal merah tumis dengan bawang', image: 'gambar/sambal-merah.jpg' },
+
+    // Minuman
+    { id: 'es-teh', name: 'Es Teh Manis', price: 8000, category: 'minuman', description: 'Teh manis dingin segar', image: 'gambar/es-teh.jpg' },
+    { id: 'kopi-hitam', name: 'Kopi Hitam', price: 10000, category: 'minuman', description: 'Kopi hitam khas Minang', image: 'gambar/kopi.jpg' },
+];
 // Konfigurasi WhatsApp
 const whatsappConfig = {
     number: '6285165375085', // Nomor WhatsApp restoran
@@ -67,12 +51,8 @@ function initializeApp() {
     }
 }
 
-// === AUTHENTICATION FUNCTIONS ===
-
-// Cek status login
 
 
-// Show register form
 function showRegister() {
     document.getElementById('loginForm').classList.add('hidden');
     document.getElementById('registerForm').classList.remove('hidden');
@@ -222,54 +202,76 @@ function loadMenu() {
 }
 
 // Display menu berdasarkan filter
+// === DISPLAY MENU (Dengan gambar + animasi) ===
 function displayMenu(filter = 'all') {
     const menuGrid = document.getElementById('menuGrid');
     if (!menuGrid) return;
-    
-    const filteredMenu = filter === 'all' ? menuData : menuData.filter(item => item.category === filter);
-    
-   menuGrid.innerHTML = filteredMenu.map(item => `
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2 card-hover">
-        <div class="h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
-            ${item.image 
-                ? `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` 
-                : `<span class="text-6xl">${item.emoji}</span>`}
-        </div>
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-maroon mb-2">${item.name}</h3>
-            <p class="text-gray-600 text-sm mb-4">${item.description}</p>
-            <p class="text-2xl font-bold text-gold mb-4">Rp ${item.price.toLocaleString('id-ID')}</p>
-            <div class="space-y-2">
-                <button onclick="addToCart('${item.id}', ${item.price})" class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300 font-medium">
-                    Tambah ke Keranjang
-                </button>
-                <button onclick="orderNow('${item.id}', ${item.price})" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
-                    Pesan Sekarang
-                </button>
-            </div>
-        </div>
-    </div>
-`).join('');
 
+    const filteredMenu = filter === 'all' ? menuData : menuData.filter(item => item.category === filter);
+
+    // Animasi slide up dulu
+    const cards = menuGrid.querySelectorAll('.menu-card');
+    cards.forEach((card, i) => {
+        card.style.animationDelay = `${i * 50}ms`;
+        card.classList.add('animate-slideUp');
+    });
+
+    setTimeout(() => {
+        menuGrid.innerHTML = '';
+        filteredMenu.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = `menu-card bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-2 animate-slideDown`;
+            card.style.animationDelay = `${i * 100}ms`;
+
+            card.innerHTML = `
+                <div class="h-48 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center overflow-hidden">
+                    <img src="${item.image}" alt="${item.name}" 
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://via.placeholder.com/300x200/4B0000/FFD700?text=${encodeURIComponent(item.name)}'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">${item.name}</h3>
+                    <p class="text-gray-200 text-sm mb-4">${item.description}</p>
+                    <p class="text-2xl font-bold text-gold mb-4">Rp ${item.price.toLocaleString('id-ID')}</p>
+                    <div class="space-y-2">
+                        <button onclick="addToCart('${item.id}', ${item.price})" 
+                                class="w-full bg-maroon text-white py-2 rounded-lg hover:bg-red-800 transition duration-300 font-medium">
+                            Tambah ke Keranjang
+                        </button>
+                        <button onclick="orderNow('${item.id}', ${item.price})" 
+                                class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
+                            Pesan Sekarang
+                        </button>
+                    </div>
+                </div>
+            `;
+            menuGrid.appendChild(card);
+        });
+    }, cards.length > 0 ? 400 : 0);
 }
 
-// Filter menu
-function filterMenu(category, event) {
+function filterMenu(category) {
     currentFilter = category;
 
+    // Update tombol aktif
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active', 'bg-maroon', 'text-white');
         btn.classList.add('bg-white', 'text-maroon', 'border-2', 'border-maroon');
     });
 
-    event.target.classList.add('active', 'bg-maroon', 'text-white');
-    event.target.classList.remove('bg-white', 'text-maroon', 'border-2', 'border-maroon');
+    // Cari tombol yang sesuai kategori
+    const activeBtn = Array.from(document.querySelectorAll('.filter-btn'))
+        .find(btn => btn.getAttribute('onclick').includes(`'${category}'`));
+    
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-maroon', 'text-white');
+        activeBtn.classList.remove('bg-white', 'text-maroon', 'border-2', 'border-maroon');
+    }
 
     displayMenu(category);
 }
 
 
-// === CART FUNCTIONS ===
 function checkAuthStatus() {
     const user = localStorage.getItem('currentUser');
     if (user) {
@@ -281,7 +283,6 @@ function checkAuthStatus() {
     }
 }
 
-// Add to cart
 function addToCart(itemId, price) {
     const menuItem = menuData.find(item => item.id === itemId);
     if (!menuItem) return;
@@ -296,7 +297,7 @@ function addToCart(itemId, price) {
             name: menuItem.name,
             price: price,
             quantity: 1,
-            emoji: menuItem.emoji
+            image: menuItem.image  // ← tambahkan ini
         });
     }
     
@@ -305,7 +306,7 @@ function addToCart(itemId, price) {
     showMessage(`${menuItem.name} ditambahkan ke keranjang!`, 'success');
 }
 
-// Order now (langsung ke WhatsApp)
+
 function orderNow(itemId, price) {
     const menuItem = menuData.find(item => item.id === itemId);
     if (!menuItem) return;
@@ -316,7 +317,7 @@ function orderNow(itemId, price) {
     window.open(whatsappUrl, '_blank');
 }
 
-// Update cart display
+
 function updateCartDisplay() {
     const cartCount = document.getElementById('cartCount');
     if (cartCount) {
@@ -325,20 +326,18 @@ function updateCartDisplay() {
     }
 }
 
-// Save cart to localStorage
+
 function saveCartToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Load cart from localStorage
+
 function loadCartFromStorage() {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
     }
 }
-
-// Display cart page
 function displayCart() {
     const emptyCart = document.getElementById('emptyCart');
     const cartItems = document.getElementById('cartItems');
@@ -353,35 +352,45 @@ function displayCart() {
     emptyCart.classList.add('hidden');
     cartItems.classList.remove('hidden');
     
-    // Display cart items
-    cartItemsList.innerHTML = cart.map(item => `
-        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cart-item">
-            <div class="flex items-center space-x-4">
-                <span class="text-3xl">${item.emoji}</span>
-                <div>
-                    <h4 class="font-bold text-maroon">${item.name}</h4>
-                    <p class="text-gray-600">Rp ${item.price.toLocaleString('id-ID')}</p>
+    cartItemsList.innerHTML = cart.map(cartItem => {
+        // Ambil data lengkap dari menuData
+        const menuItem = menuData.find(item => item.id === cartItem.id);
+        if (!menuItem) return '';
+
+        return `
+            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cart-item bg-white/10 backdrop-blur-sm">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-red-500 to-red-700">
+                        <img src="${menuItem.image}" alt="${menuItem.name}" 
+                             class="w-full h-full object-cover"
+                             onerror="this.src='https://via.placeholder.com/64/4B0000/FFD700?text=${menuItem.name.charAt(0)}'">
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white">${menuItem.name}</h4>
+                        <p class="text-gray-300 text-sm">Rp ${menuItem.price.toLocaleString('id-ID')} / porsi</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button onclick="updateCartQuantity('${cartItem.id}', ${cartItem.quantity - 1})" 
+                                class="bg-gray-200 text-gray-700 w-8 h-8 rounded-full hover:bg-gray-300 transition duration-300 text-lg font-bold">-</button>
+                        <span class="font-bold text-lg w-8 text-center text-white">${cartItem.quantity}</span>
+                        <button onclick="updateCartQuantity('${cartItem.id}', ${cartItem.quantity + 1})" 
+                                class="bg-maroon text-white w-8 h-8 rounded-full hover:bg-red-800 transition duration-300 text-lg font-bold">+</button>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-gold">Rp ${(menuItem.price * cartItem.quantity).toLocaleString('id-ID')}</p>
+                        <button onclick="removeFromCart('${cartItem.id}')" class="text-red-400 hover:text-red-600 text-sm">Hapus</button>
+                    </div>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-2">
-                    <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})" class="bg-gray-200 text-gray-700 w-8 h-8 rounded-full hover:bg-gray-300 transition duration-300">-</button>
-                    <span class="font-bold text-lg w-8 text-center">${item.quantity}</span>
-                    <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})" class="bg-maroon text-white w-8 h-8 rounded-full hover:bg-red-800 transition duration-300">+</button>
-                </div>
-                <div class="text-right">
-                    <p class="font-bold text-maroon">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</p>
-                    <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:text-red-700 text-sm">Hapus</button>
-                </div>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
     
-    // Update totals
     updateCartTotals();
 }
 
-// Update cart quantity
+
 function updateCartQuantity(itemId, newQuantity) {
     if (newQuantity <= 0) {
         removeFromCart(itemId);
@@ -397,7 +406,7 @@ function updateCartQuantity(itemId, newQuantity) {
     }
 }
 
-// Remove from cart
+
 function removeFromCart(itemId) {
     cart = cart.filter(item => item.id !== itemId);
     saveCartToStorage();
@@ -406,7 +415,7 @@ function removeFromCart(itemId) {
     showMessage('Item dihapus dari keranjang!', 'success');
 }
 
-// Clear cart
+
 function clearCart() {
     if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
         cart = [];
@@ -417,15 +426,12 @@ function clearCart() {
     }
 }
 
-// Update cart totals
 function updateCartTotals() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
     document.getElementById('subtotal').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
     document.getElementById('total').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
 }
-
-// Order via WhatsApp
 function orderViaWhatsApp() {
     if (cart.length === 0) {
         showMessage('Keranjang kosong!', 'error');
@@ -435,10 +441,13 @@ function orderViaWhatsApp() {
     let message = whatsappConfig.message + '\n';
     let total = 0;
     
-    cart.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        message += `- ${item.name} ${item.quantity} porsi (Rp ${itemTotal.toLocaleString('id-ID')})\n`;
-        total += itemTotal;
+    cart.forEach(cartItem => {
+        const menuItem = menuData.find(m => m.id === cartItem.id);
+        if (menuItem) {
+            const itemTotal = menuItem.price * cartItem.quantity;
+            message += `- ${menuItem.name} ${cartItem.quantity} porsi (Rp ${itemTotal.toLocaleString('id-ID')})\n`;
+            total += itemTotal;
+        }
     });
     
     message += `\nTotal: Rp ${total.toLocaleString('id-ID')}`;
@@ -446,22 +455,18 @@ function orderViaWhatsApp() {
     const whatsappUrl = `https://wa.me/${whatsappConfig.number}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
-
-// === UTILITY FUNCTIONS ===
-
-// Toggle mobile menu
 function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenu.classList.toggle('hidden');
 }
 
-// Show message
+
 function showMessage(message, type = 'info') {
-    // Remove existing messages
+
     const existingMessages = document.querySelectorAll('.message');
     existingMessages.forEach(msg => msg.remove());
     
-    // Create message element
+ 
     const messageDiv = document.createElement('div');
     messageDiv.className = `message fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg ${
         type === 'success' ? 'bg-green-500 text-white' : 
@@ -471,14 +476,13 @@ function showMessage(message, type = 'info') {
     messageDiv.textContent = message;
     
     document.body.appendChild(messageDiv);
-    
-    // Auto remove after 3 seconds
+
     setTimeout(() => {
         messageDiv.remove();
     }, 3000);
 }
 
-// Format currency
+
 function formatCurrency(amount) {
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
@@ -487,14 +491,13 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-// Smooth scroll
+
 function smoothScroll(target) {
     document.querySelector(target).scrollIntoView({
         behavior: 'smooth'
     });
 }
 
-// Initialize tooltips (if needed)
 function initializeTooltips() {
     const tooltips = document.querySelectorAll('[data-tooltip]');
     tooltips.forEach(element => {
@@ -524,7 +527,7 @@ function hideTooltip(event) {
     }
 }
 
-// Lazy loading images (if needed)
+
 function initializeLazyLoading() {
     const images = document.querySelectorAll('img[data-src]');
     const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -541,7 +544,7 @@ function initializeLazyLoading() {
     images.forEach(img => imageObserver.observe(img));
 }
 
-// Service Worker registration (for PWA features)
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -554,7 +557,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Performance monitoring
 function measurePerformance() {
     if ('performance' in window) {
         window.addEventListener('load', () => {
@@ -564,27 +566,26 @@ function measurePerformance() {
     }
 }
 
-// Initialize performance monitoring
+
 measurePerformance();
 
-// Error handling
+
 window.addEventListener('error', (event) => {
     console.error('Global error:', event.error);
-    // Could send to error tracking service
+
 });
 
-// Unhandled promise rejection handling
+
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
     event.preventDefault();
 });
 function logout() {
-    // Tampilkan konfirmasi sebelum logout (opsional)
+   
     if (confirm("Apakah Anda yakin ingin keluar?")) {
-        // Hapus data user dari localStorage (kalau kamu pakai login JS)
+        
         localStorage.removeItem('currentUser');
 
-        // Redirect ke file logout PHP untuk hapus session
         window.location.href = "logout.php";
     }
 

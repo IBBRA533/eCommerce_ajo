@@ -9,7 +9,7 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success'): ?>
         Anda berhasil keluar.
     </div>
 <?php endif; ?>
-?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
