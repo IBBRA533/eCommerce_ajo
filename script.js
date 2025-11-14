@@ -1,26 +1,18 @@
 
-const menuData = [
-    // Lauk Pauk
-    { id: 'rendang', name: 'Rendang Daging', price: 35000, category: 'lauk', description: 'Daging sapi yang dimasak dengan santan dan rempah-rempah khas Minang', image: 'gambar/1.jpg' },
-    { id: 'ayam-pop', name: 'Ayam Pop', price: 28000, category: 'lauk', description: 'Ayam kampung dengan bumbu kuning khas Padang', image: 'gambar/1.jpg' },
-    { id: 'gulai-kambing', name: 'Gulai Kambing', price: 40000, category: 'lauk', description: 'Gulai kambing dengan kuah santan kental', image: 'gambar/gulai-kambing.jpg' },
-    { id: 'dendeng-balado', name: 'Dendeng Balado', price: 38000, category: 'lauk', description: 'Daging sapi kering dengan sambal balado', image: 'gambar/dendeng.jpg' },
+let menuData = [];
+async function loadMenuFromServer() {
+    try {
+        const res = await fetch("api.php?action=list");
+        menuData = await res.json();
+        displayMenu(currentFilter);
+    } catch (e) {
+        console.error("Gagal memuat menu", e);
+    }
+}
 
-    // Sayuran
-    { id: 'daun-singkong', name: 'Daun Singkong', price: 10000, category: 'sayur', description: 'Daun singkong rebus dengan santan', image: 'gambar/daun-singkong.jpg' },
-    { id: 'nangka', name: 'Gulai Nangka', price: 12000, category: 'sayur', description: 'Nangka muda dimasak dengan kuah santan', image: 'gambar/nangka.jpg' },
-
-    // Sambal
-    { id: 'sambal-lado', name: 'Sambal Lado', price: 15000, category: 'sambal', description: 'Sambal hijau pedas dengan ikan teri', image: 'gambar/sambal-lado.jpg' },
-    { id: 'sambal-merah', name: 'Sambal Merah', price: 12000, category: 'sambal', description: 'Sambal merah tumis dengan bawang', image: 'gambar/sambal-merah.jpg' },
-
-    // Minuman
-    { id: 'es-teh', name: 'Es Teh Manis', price: 8000, category: 'minuman', description: 'Teh manis dingin segar', image: 'gambar/es-teh.jpg' },
-    { id: 'kopi-hitam', name: 'Kopi Hitam', price: 10000, category: 'minuman', description: 'Kopi hitam khas Minang', image: 'gambar/kopi.jpg' },
-];
 // Konfigurasi WhatsApp
 const whatsappConfig = {
-    number: '6285165375085', // Nomor WhatsApp restoran
+    number: '6285165375085', // Nomor WhatsApzp restoran
     message: 'bang ajo, saya ingin pesan:'
 };
 
@@ -35,21 +27,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Initialize aplikasi
-function initializeApp() {
+async function initializeApp() {
     checkAuthStatus();
     loadCartFromStorage();
     updateCartDisplay();
-    
-    // Load menu jika di halaman menu
+
+    await loadMenuFromServer(); // ← Penting
+
     if (document.getElementById('menuGrid')) {
-        loadMenu();
+        displayMenu();
     }
     
-    // Load cart jika di halaman cart
     if (document.getElementById('cartItems')) {
         displayCart();
     }
 }
+
+document.addEventListener("DOMContentLoaded", initializeApp);
+
 
 
 

@@ -1,9 +1,22 @@
 <?php
-session_start();        // Mulai session
-session_unset();        // Hapus semua variabel session
-session_destroy();      // Hancurkan session
+session_start();
 
-// Redirect ke halaman login atau index
+// Jika admin yang logout
+if (!empty($_SESSION['admin'])) {
+    session_unset();
+    session_destroy();
+    header("Location: admin.login.php");
+    exit;
+}
+
+// Jika user biasa yang logout
+if (!empty($_SESSION['user'])) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php"); // atau index.php
+    exit;
+}
+
+// Jika tidak ada session (sudah logout)
 header("Location: index.php");
-exit();
-?>
+exit;

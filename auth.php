@@ -1,56 +1,73 @@
 <?php
-session_start();
-require 'db.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$action = $_POST['action'];
+require_once 'db.php'; // db.php Anda harus memiliki getPDO()
 
+$action = $_POST['action'] ?? null;
+
+// Ambil koneksi PDO
+$pdo = getPDO();  
+
+// LOGIN
 if ($action === 'login') {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
 
-    if ($user = $result->fetch_assoc()) {
+    if ($user) {
         if (password_verify($password, $user['password'])) {
+
+            unset($user['password']);  // demi keamanan
             $_SESSION['user'] = $user;
+
             header("Location: home.html");
-            exit();
+            exit;
         } else {
             $_SESSION['error'] = "Password salah!";
             header("Location: index.php");
-            exit();
+            exit;
         }
     } else {
         $_SESSION['error'] = "Email tidak ditemukan!";
         header("Location: index.php");
-        exit();
+        exit;
     }
 }
 
+
+// REGISTER
 if ($action === 'register') {
-    $fullName = $_POST['fullName'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $fullName = trim($_POST['fullName']);
+    $email = trim($_POST['email']);
+    $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $check = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $result = $check->get_result();
+    // Cek email sudah terdaftar atau belum
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+    $stmt->execute([$email]);
+    $exists = $stmt->fetch();
 
-    if ($result->num_rows > 0) {
+    if ($exists) {
         $_SESSION['error'] = "Email sudah terdaftar!";
         header("Location: Register.php");
-        exit();
+        exit;
     }
 
-    $stmt = $conn->prepare("INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $fullName, $email, $password);
-    $stmt->execute();
+    // Insert user baru
+    $stmt = $pdo->prepare("INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)");
+    $stmt->execute([$fullName, $email, $passwordHash]);
 
     $_SESSION['success'] = "Pendaftaran berhasil, silakan login.";
     header("Location: index.php");
-    exit();
+    exit;
 }
+
+
+// Jika action tidak dikenali
+$_SESSION['error'] = "Aksi tidak valid!";
+header("Location: index.php");
+exit;

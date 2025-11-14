@@ -26,7 +26,7 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success'): ?>
     <div class="card p-4 shadow-lg" style="width: 400px;">
         <div class="text-center mb-3">
             <i class="fas fa-utensils fs-1 text-danger"></i>
-            <h4 class="fw-bold mt-2">Rumah Makan Nasi Padang</h4>
+            <h4 class="fw-bold mt-2">Selamat Datang Di Zahra Minang</h4>
             <p class="text-muted">Silakan masuk untuk melanjutkan</p>
         </div>
 
