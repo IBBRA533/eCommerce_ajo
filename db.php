@@ -6,11 +6,17 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Konfigurasi DB
+
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'nasi_padang');
 define('DB_USER', 'root');
 define('DB_PASS', '');
+
+// define('DB_HOST', 'sql100.infinityfree.com');
+// define('DB_NAME', 'if0_40636565_ajo');
+// define('DB_USER', 'if0_40636565');
+// define('DB_PASS', 'ibbra1234');
+
 
 // Function koneksi PDO
 function getPDO() {

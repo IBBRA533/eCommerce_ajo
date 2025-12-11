@@ -34,6 +34,7 @@ $admin = $_SESSION['admin'];
       <div class="flex items-center gap-2">
         <button id="btnAdd" class="px-4 py-2 rounded accent-maroon accent-maroon-hover">Tambah Menu</button>
         <button id="btnReload" class="px-4 py-2 rounded border bg-white hover:bg-gray-50">Muat Ulang</button>
+         <a href="laporanKeuangan.php" class="px-4 py-2 rounded border bg-white hover:bg-gray-50">Laporan Keuangan</a>
       </div>
       <div class="flex items-center gap-2">
         <input id="search" placeholder="Cari nama / id" class="p-2 rounded border shadow-sm w-64" />

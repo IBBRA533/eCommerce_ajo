@@ -1,0 +1,7 @@
+{
+    "name": "yourname/ajo",
+    "description": "Ajo project",
+    "require": {
+        "php": ""
+    }
+}

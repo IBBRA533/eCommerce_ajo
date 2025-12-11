@@ -14,7 +14,6 @@ if (isset($_SESSION['user'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-  
 </head>
 <body class="login-bg">
 
@@ -84,9 +83,10 @@ if (isset($_SESSION['user'])) {
                         <i class="fas fa-eye" id="toggleIcon2"></i>
                     </button>
                 </div>
+                <div class="mt-1 small text-danger" id="confirmMessage" style="display:none;">Konfirmasi password tidak cocok.</div>
             </div>
 
-            <button type="submit" class="btn btn-danger w-100 fw-bold mt-2">Daftar</button>
+            <button type="submit" id="submitBtn" class="btn btn-danger w-100 fw-bold mt-2" disabled>Daftar</button>
         </form>
 
         <div class="mt-3 text-center">
@@ -111,6 +111,10 @@ function togglePassword(inputId, iconId) {
 
 // Validasi password real-time
 const passwordInput = document.getElementById('password');
+const confirmInput = document.getElementById('confirmPassword');
+const submitBtn = document.getElementById('submitBtn');
+const confirmMessage = document.getElementById('confirmMessage');
+
 const checks = {
     lengthCheck: value => value.length >= 8 && value.length <= 12,
     uppercaseCheck: value => /[A-Z]/.test(value),
@@ -119,7 +123,7 @@ const checks = {
     specialCheck: value => /[@$!#%*?&]/.test(value)
 };
 
-passwordInput.addEventListener('input', () => {
+function updateChecks() {
     const value = passwordInput.value;
     let allValid = true;
 
@@ -129,16 +133,55 @@ passwordInput.addEventListener('input', () => {
         if (!valid) allValid = false;
     }
 
+    // set HTML5 validity message for the password input (helps accessibility and programmatic checks)
     passwordInput.setCustomValidity(allValid ? "" : "Password tidak sesuai format.");
+    return allValid;
+}
+
+function updateConfirmMessage() {
+    const pass = passwordInput.value;
+    const conf = confirmInput.value;
+    const match = pass === conf && conf.length > 0;
+    confirmMessage.style.display = match || conf.length === 0 ? 'none' : 'block';
+    return match;
+}
+
+// Enable/disable submit button based on combined checks
+function refreshSubmitState() {
+    const passValid = updateChecks();
+    const confirmMatches = updateConfirmMessage();
+    submitBtn.disabled = !(passValid && confirmMatches);
+}
+
+// Event listeners
+passwordInput.addEventListener('input', () => {
+    updateChecks();
+    // also refresh confirm message because password change could break match
+    updateConfirmMessage();
+    refreshSubmitState();
 });
 
-// Konfirmasi password cocok
+confirmInput.addEventListener('input', () => {
+    updateConfirmMessage();
+    refreshSubmitState();
+});
+
+// Final guard on submit (prevents bypass)
 document.getElementById('registerForm').addEventListener('submit', function(e) {
-    const pass = document.getElementById('password').value;
-    const confirm = document.getElementById('confirmPassword').value;
-    if (pass !== confirm) {
+    const passValid = updateChecks();
+    const confirmMatches = (passwordInput.value === confirmInput.value);
+    if (!passValid || !confirmMatches) {
         e.preventDefault();
-        alert('Konfirmasi password tidak cocok!');
+        // Show appropriate feedback
+        if (!passValid) {
+            // Trigger browser's validation UI for password field
+            passwordInput.reportValidity();
+        }
+        if (!confirmMatches) {
+            confirmMessage.style.display = 'block';
+            confirmInput.focus();
+            alert('Form tidak bisa dikirim: periksa format password dan pastikan konfirmasi cocok.');
+        }
     }
 });
 </script>

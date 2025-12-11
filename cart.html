@@ -1,56 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Makan Nasi Padang - Beranda</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Background halaman */
-        body {
-            background-image: url('gambar/2.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        /* Overlay agar teks terlihat jelas */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: -1;
-        }
-        /* Warna khusus */
-        .text-gold { color: #FFD700; }
-        .bg-gold { background-color: #FFD700; }
-        .bg-maroon { background-color: #8B0000; }
-        .hover\:bg-maroon:hover { background-color: #a00000; }
-        .hover\:bg-yellow-400:hover { background-color: #facc15; }
-        .hover\:text-gold:hover { color: #FFD700; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Keranjang — Nasi Padang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Background dan overlay */
+    body {
+      background-image: url('gambar/2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.55);
+      z-index:-1;
+    }
 
-         @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* Modal helper */
+    #orderModal { display:none; }
+    #orderModal.show { display:flex; }
+    /* minor visual polish for inputs on non-tailwind env (keamanan) */
+    #orderModal input, #orderModal textarea { outline: none; }
 
-@keyframes slideUp {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-10px); }
-}
-
-.animate-slideDown {
-  animation: slideDown 0.3s ease-out forwards;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.3s ease-out forwards;
-}
-
-    </style>
+    /* small animation */
+    .fade-in { animation: fadeIn .16s ease-out both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px) } to { opacity:1; transform: translateY(0) } }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col">
-   
+<body class="min-h-screen flex flex-col text-gray-900">
+
+  <!-- NAV -->
    <nav class="bg-black/40 backdrop-blur-md shadow-lg sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
     <!-- Logo -->
@@ -71,7 +55,7 @@
     <div class="hidden md:flex space-x-8">
       <a href="home.html" class="text-white hover:text-[#FFD700] font-medium transition">Beranda</a>
       <a href="menu.html" class="text-white hover:text-[#FFD700] font-medium transition">Menu</a>
-      <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
+        <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
     </div>
 
     <!-- Cart & User (Desktop) -->
@@ -95,92 +79,123 @@
 <div id="mobileMenu" class="hidden absolute top-16 left-0 w-full bg-maroon text-white md:hidden">
   <a href="home.html" class="block px-4 py-3 hover:bg-red-700">Beranda</a>
   <a href="menu.html" class="block px-4 py-3 hover:bg-red-700">Menu</a>
-  <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
- 
+    <a href="lokasi.html" class="text-white hover:text-[#FFD700] font-medium transition">Lokasi</a>
+
 </div>
 </nav>
- 
-  
-    <section class="bg-gradient-to-r from-maroon to-red-800 py-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Keranjang Belanja</h1>
-            <p class="text-xl text-gold">Review pesanan Anda sebelum melakukan pemesanan</p>
+  <!-- HERO -->
+  <header class="bg-gradient-to-r from-maroon to-red-800 py-12">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-white">Keranjang Belanja</h1>
+      <p class="text-white mt-2">Periksa pesanan dan kirim via WhatsApp</p>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="flex-1 py-10">
+    <div class="max-w-4xl mx-auto px-4">
+
+      <!-- Empty state -->
+      <div id="emptyCart" class="text-center py-12 rounded-lg bg-white/60 backdrop-blur-sm">
+        <svg class="w-20 h-20 mx-auto text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4"/>
+        </svg>
+        <h2 class="text-xl font-semibold">Keranjang Anda Kosong</h2>
+        <p class="text-gray-700 mt-2">Tambahkan menu terlebih dahulu.</p>
+        <a href="menu.html" class="inline-block mt-4 bg-maroon text-white px-6 py-2 rounded-lg">Lihat Menu</a>
+      </div>
+
+      <!-- Cart content -->
+      <section id="cartItems" class="hidden space-y-6">
+        <div class="bg-white rounded-xl shadow p-6">
+          <h2 class="text-2xl font-semibold text-maroon mb-4">Pesanan Anda</h2>
+          <div id="cartItemsList" class="space-y-4"></div>
         </div>
-    </section>
 
-    
-    <section class="py-16">
-        <div class="max-w-4xl mx-auto px-4">
-           
-            <div id="emptyCart" class="text-center py-16">
-                <div class="mb-8">
-                    <svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6M20 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2-2v4"></path>
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-600 mb-4">Keranjang Anda Kosong</h2>
-                <p class="text-gray-500 mb-8">Silakan pilih menu yang ingin Anda pesan</p>
-                <a href="menu.html" class="inline-block bg-maroon text-white px-8 py-3 rounded-lg font-bold hover:bg-red-800 transition duration-300">
-                    Lihat Menu
-                </a>
+        <!-- Order summary -->
+        <div class="bg-white rounded-xl shadow p-6">
+          <h3 class="text-xl font-semibold text-maroon mb-4">Ringkasan Pesanan</h3>
+
+          <div class="grid grid-cols-2 gap-2 mb-6">
+            <div>Subtotal:</div>
+            <div class="text-right font-medium" id="subtotal">Rp 0</div>
+
+            <div class="text-lg font-bold">Total:</div>
+            <div class="text-right text-lg font-bold text-maroon" id="total">Rp 0</div>
+          </div>
+
+          <div class="space-y-3">
+            <button id="btnClear" class="w-full bg-gray-500 text-white py-3 rounded-lg">Kosongkan Keranjang</button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <button id="btnOpenWhats" class="w-full bg-green-600 text-white py-3 rounded-lg flex items-center justify-center gap-3">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382..."/></svg>
+                Pesan via WhatsApp
+              </button>
+
+              <button id="btnOrderModal" class="w-full border border-maroon text-maroon py-3 rounded-lg">Kirim & Simpan (Modal)</button>
             </div>
-
-           
-            <div id="cartItems" class="hidden">
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-maroon mb-6">Pesanan Anda</h2>
-                        <div id="cartItemsList" class="space-y-4">
-                          
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Order Summary -->
-                <div class="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-maroon mb-4">Ringkasan Pesanan</h3>
-                        <div class="space-y-2 mb-6">
-                            <div class="flex justify-between">
-                                <span>Subtotal:</span>
-                                <span id="subtotal" class="font-medium">Rp 0</span>
-                            </div>
-                            <div class="flex justify-between text-xl font-bold text-maroon border-t pt-2">
-                                <span>Total:</span>
-                                <span id="total">Rp 0</span>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <button onclick="clearCart()" class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold hover:bg-gray-600 transition duration-300">
-                                Kosongkan Keranjang
-                            </button>
-                            <button onclick="orderViaWhatsApp()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300 flex items-center justify-center">
-                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                                </svg>
-                                Pesan via WhatsApp
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-r from-maroon to-red-800 text-white py-12">
+    </div>
+  </main>
+
+  <!-- Modal: Order details + Cart preview -->
+  <div id="orderModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
+    <div id="orderModalBackdrop" class="absolute inset-0 bg-black/60"></div>
+
+    <div class="relative w-full max-w-3xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden fade-in">
+      <div class="md:flex">
+        <!-- Left: form -->
+        <div class="w-full md:w-2/3 p-6">
+          <h3 class="text-lg font-semibold text-gray-800">Isi rincian pesanan</h3>
+          <p class="text-sm text-gray-500 mb-4">Masukkan nama, nomor telepon, dan catatan (opsional).</p>
+
+          <label class="block text-sm text-gray-700 mt-2">Nama pembeli</label>
+          <input id="orderModalName" type="text" class="w-full border rounded p-2 mt-1" placeholder="Contoh: Budi">
+
+          <label class="block text-sm text-gray-700 mt-3">Nomor telepon</label>
+          <input id="orderModalPhone" type="tel" class="w-full border rounded p-2 mt-1" placeholder="0812xxxxxx">
+
+          <label class="block text-sm text-gray-700 mt-3">Catatan / Instruksi</label>
+          <textarea id="orderModalNote" rows="3" class="w-full border rounded p-2 mt-1" placeholder="Contoh: Tanpa cabe"></textarea>
+
+          <div id="orderModalError" class="text-red-600 text-sm mt-2 hidden"></div>
+
+          <div class="flex justify-end gap-3 mt-4">
+            <button id="orderModalCancel" class="px-4 py-2 rounded border">Batal</button>
+            <button id="orderModalSubmit" class="px-4 py-2 rounded bg-green-600 text-white">Kirim & Buka WhatsApp</button>
+          </div>
+        </div>
+
+        <!-- Right: cart preview -->
+        <div class="w-full md:w-1/3 p-6 bg-gray-50 border-l">
+          <h4 class="font-semibold mb-3">Ringkasan singkat</h4>
+          <div id="modalCartPreview" class="space-y-2 max-h-60 overflow-auto"></div>
+          <div class="border-t mt-4 pt-3">
+            <div class="flex justify-between"><span class="font-medium">Subtotal</span><span id="modalSubtotal">Rp 0</span></div>
+            <div class="flex justify-between font-bold mt-2"><span>Total</span><span id="modalTotal">Rp 0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-maroon to-red-800 text-white py-12">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Info Restoran -->
                 <div>
                     <h3 class="text-xl font-bold text-gold mb-4">Rumah Makan Nasi Padang</h3>
-                    <p class="mb-4">Cita rasa asli Minangkabau  yang telah terjaga kualitasnya.</p>
+                    <p class="mb-4">Cita rasa asli Minangkabau.</p>
                 </div>
 
                 <!-- Kontak -->
                 <div>
-                     <h3 class="text-xl font-bold text-gold mb-4">Kontak Kami</h3>
+                    <h3 class="text-xl font-bold text-gold mb-4">Kontak Kami</h3>
                     <div class="space-y-2">
                         <p>📍 Kp. Tengah, Kec. Pancur Batu, Kabupaten Deli Serdang, Sumatera Utara</p>
                         <p>📞 0831223321</p>
@@ -193,6 +208,7 @@
                     <h3 class="text-xl font-bold text-gold mb-4">Jam Buka</h3>
                     <div class="space-y-2">
                         <p>Senin - Jumat: 08.00 - 16.00</p>
+                       
                     </div>
                 </div>
             </div>
@@ -203,7 +219,266 @@
         </div>
     </footer>
 
-    <script src="./script.js"></script>
+
+  <!-- SCRIPT (embedded, copy-paste saja) -->
+  <script>
+    /* --- Utilities --- */
+    const el = id => document.getElementById(id);
+    function fmtCurrency(n){ return 'Rp ' + Number(n || 0).toLocaleString('id-ID'); }
+    function escapeHtml(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    /* --- Cart state (localStorage key: 'cart') --- */
+    let cart = [];
+    function loadCart(){ try{ cart = JSON.parse(localStorage.getItem('cart')||'[]') || []; }catch(e){ cart = []; } }
+    function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); updateUI(); }
+
+    /* --- UI updates --- */
+    function updateUI(){
+      // cartCount (nav)
+      el('cartCount').textContent = cart.reduce((s,i)=> s + (Number(i.quantity)||0), 0);
+
+      // empty vs items
+      if (!cart || cart.length === 0){
+        el('emptyCart').classList.remove('hidden');
+        el('cartItems').classList.add('hidden');
+      } else {
+        el('emptyCart').classList.add('hidden');
+        el('cartItems').classList.remove('hidden');
+        renderCartItems();
+      }
+      updateTotals();
+    }
+
+    function renderCartItems(){
+      const wrap = el('cartItemsList');
+      wrap.innerHTML = '';
+      cart.forEach(item => {
+        const price = Number(item.price||0);
+        const qty = Number(item.quantity||1);
+        const subtotal = price * qty;
+
+        const node = document.createElement('div');
+        node.className = 'flex items-center justify-between p-4 border rounded-lg bg-white/80';
+        node.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded overflow-hidden bg-gradient-to-br from-red-500 to-red-700">
+              <img src="${escapeHtml(item.image||'')}" alt="${escapeHtml(item.name||'')}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/64/4B0000/FFD700?text=${encodeURIComponent((item.name||'').charAt(0))}'" />
+            </div>
+            <div>
+              <div class="font-semibold">${escapeHtml(item.name||'')}</div>
+              <div class="text-sm text-gray-600">Rp ${price.toLocaleString('id-ID')} / porsi</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+              <button class="qty-decr bg-gray-100 w-8 h-8 rounded-full">-</button>
+              <div class="w-8 text-center font-bold">${qty}</div>
+              <button class="qty-incr bg-maroon text-white w-8 h-8 rounded-full">+</button>
+            </div>
+            <div class="text-right">
+              <div class="font-bold text-maroon">${fmtCurrency(subtotal)}</div>
+              <button class="text-sm text-red-500 remove-btn">Hapus</button>
+            </div>
+          </div>
+        `;
+
+        // attach handlers
+        node.querySelector('.qty-incr').addEventListener('click', ()=> { changeQty(item.id, qty+1); });
+        node.querySelector('.qty-decr').addEventListener('click', ()=> { changeQty(item.id, qty-1); });
+        node.querySelector('.remove-btn').addEventListener('click', ()=> { removeItem(item.id); });
+
+        wrap.appendChild(node);
+      });
+    }
+
+    function changeQty(id, newQty){
+      if (newQty <= 0) return removeItem(id);
+      const it = cart.find(i => String(i.id) === String(id));
+      if (!it) return;
+      it.quantity = newQty;
+      saveCart();
+    }
+    function removeItem(id){
+      cart = cart.filter(i => String(i.id) !== String(id));
+      saveCart();
+      showToast('Item dihapus');
+    }
+
+    function clearAll(){
+      if (!confirm('Kosongkan keranjang?')) return;
+      cart = [];
+      saveCart();
+      showToast('Keranjang dikosongkan');
+    }
+
+    function updateTotals(){
+      const subtotal = cart.reduce((s,i) => s + (Number(i.price||0) * Number(i.quantity||1)), 0);
+      el('subtotal').textContent = fmtCurrency(subtotal);
+      el('total').textContent = fmtCurrency(subtotal);
+      // modal preview totals also updated when modal opens (we update there too)
+    }
+
+    /* --- Toast --- */
+    function showToast(msg, time=2200){
+      const t = document.createElement('div');
+      t.className = 'fixed right-4 bottom-6 bg-black/80 text-white px-4 py-2 rounded';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(()=> t.remove(), time);
+    }
+
+    /* --- Order modal helpers --- */
+    function openOrderModal(){
+      // fill modal preview and show
+      fillModalPreview();
+      el('orderModal').classList.add('show');
+      el('orderModalBackdrop').addEventListener('click', closeOrderModalOnce);
+      document.addEventListener('keydown', escClose);
+      // focus name
+      setTimeout(()=> el('orderModalName').focus(), 80);
+    }
+    function closeOrderModal(){
+      el('orderModal').classList.remove('show');
+      el('orderModalBackdrop').removeEventListener('click', closeOrderModalOnce);
+      document.removeEventListener('keydown', escClose);
+    }
+    function closeOrderModalOnce(){ closeOrderModal(); }
+    function escClose(e){ if (e.key === 'Escape') closeOrderModal(); }
+
+    function fillModalPreview(){
+      const preview = el('modalCartPreview');
+      preview.innerHTML = '';
+      let subtotal = 0;
+      cart.forEach(it => {
+        const price = Number(it.price||0);
+        const qty = Number(it.quantity||1);
+        const s = price * qty;
+        subtotal += s;
+        const row = document.createElement('div');
+        row.className = 'flex justify-between text-sm';
+        row.innerHTML = `<div>${escapeHtml(it.name)} x${qty}</div><div>${fmtCurrency(s)}</div>`;
+        preview.appendChild(row);
+      });
+      el('modalSubtotal').textContent = fmtCurrency(subtotal);
+      el('modalTotal').textContent = fmtCurrency(subtotal);
+    }
+
+    /* --- WhatsApp open (simple) --- */
+    function openWhatsAppChat(customer, phone, note){
+      let lines = [];
+      lines.push(`Pesanan dari: ${customer}`);
+      if (phone) lines.push(`Nomor: ${phone}`);
+      if (note) lines.push(`Catatan: ${note}`);
+      lines.push('');
+      lines.push('Daftar pesanan:');
+      let total = 0;
+      cart.forEach(it => {
+        const qty = Number(it.quantity||1);
+        const price = Number(it.price||0);
+        const s = qty * price;
+        total += s;
+        lines.push(`- ${it.name} x${qty} (Rp ${price.toLocaleString('id-ID')}) — Rp ${s.toLocaleString('id-ID')}`);
+      });
+      lines.push('');
+      lines.push(`Total: Rp ${total.toLocaleString('id-ID')}`);
+      lines.push('');
+      lines.push('Mohon konfirmasi ya, terima kasih.');
+
+      const waNumber = '6285165375085'; // sesuaikan
+      const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+      window.open(url, '_blank');
+      // setelah membuka WA, kosongkan keranjang lokal:
+      cart = [];
+      saveCart();
+    }
+
+    /* --- OPTIONAL: send to server via API (if you have orders table) ---
+         This function will attempt to POST to api.php?action=order with items format.
+         If your server/table not ready, keep commented or remove.
+    */
+    async function postOrderToServer(customer, phone, note){
+      // build items in {id, qty} shape:
+      const items = cart.map(i => ({ id: String(i.id), qty: Number(i.quantity||1) }));
+      try {
+        const res = await fetch('api.php?action=order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ customer_name: customer, phone: phone, items, note })
+        });
+        const j = await res.json();
+        if (res.ok && j && j.ok) {
+          return { ok: true, order_code: j.data?.order_code || j.order_code || '' };
+        } else {
+          console.warn('server rejected', j);
+          return { ok: false, message: j.message || 'Server menolak pesanan' };
+        }
+      } catch (e){
+        console.error(e);
+        return { ok: false, message: 'Gagal terhubung ke server' };
+      }
+    }
+
+    /* --- Handlers for modal buttons --- */
+    el('orderModalCancel').addEventListener('click', ()=> { closeOrderModal(); });
+    el('orderModalSubmit').addEventListener('click', async ()=>{
+      const name = el('orderModalName').value.trim() || 'Pengunjung';
+      const phone = el('orderModalPhone').value.trim() || '';
+      const note  = el('orderModalNote').value.trim() || '';
+
+      // minimal phone validation if provided
+      if (phone && phone.replace(/\D/g,'').length < 8) {
+        el('orderModalError').textContent = 'Nomor telepon tampak terlalu pendek.';
+        el('orderModalError').classList.remove('hidden');
+        return;
+      } else {
+        el('orderModalError').classList.add('hidden');
+      }
+
+      // Optional: try to save to server first (uncomment if you have API & orders table)
+      // const serverResult = await postOrderToServer(name, phone, note);
+      // if (!serverResult.ok) {
+      //   // if push failed you may still open WA, but inform user
+      //   const proceed = confirm('Penyimpanan ke server gagal: ' + serverResult.message + '. Tetap buka WhatsApp?');
+      //   if (!proceed) return;
+      // }
+
+      // open WA with formatted message
+      openWhatsAppChat(name, phone, note);
+      showToast('Chat WhatsApp dibuka. Lanjutkan pesan di WhatsApp.');
+      closeOrderModal();
+    });
+
+    /* --- Buttons on page --- */
+    el('btnClear').addEventListener('click', clearAll);
+    el('btnOpenWhats').addEventListener('click', async ()=>{
+      if (!cart || cart.length === 0) { showToast('Keranjang kosong', 1800); return; }
+      // quick flow: open a tiny modal to ask for name/phone, reuse modal:
+      // we pre-fill fields then auto-submit
+      el('orderModalName').value = localStorage.getItem('lastOrderName') || 'Pengunjung';
+      el('orderModalPhone').value = localStorage.getItem('lastOrderPhone') || '';
+      el('orderModalNote').value = '';
+      openOrderModal();
+    });
+    el('btnOrderModal').addEventListener('click', ()=>{
+      if (!cart || cart.length === 0) { showToast('Keranjang kosong', 1800); return; }
+      // open full modal (same as above)
+      el('orderModalName').value = localStorage.getItem('lastOrderName') || 'Pengunjung';
+      el('orderModalPhone').value = localStorage.getItem('lastOrderPhone') || '';
+      el('orderModalNote').value = '';
+      openOrderModal();
+    });
+
+    /* --- INIT --- */
+    (function init(){
+      loadCart();
+      updateUI();
+      // keep window._cart for debugging
+      window._cart = () => cart;
+    })();
+  </script>
+   <script src="./script.js"></script>
      <script src="./mobile.js"></script>
 </body>
 </html>
