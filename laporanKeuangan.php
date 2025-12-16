@@ -28,6 +28,10 @@ $server_date = date('Y-m-d');
     .btn { padding:.5rem .75rem; border-radius:.375rem; border:1px solid #e5e7eb; background:#fff; cursor:pointer; }
     .btn-primary { background:#047857; color:#fff; border-color:#047857; }
   </style>
+  <a href="admin_dashboard.php"
+   class="inline-flex items-center gap-2 px-3 py-2 rounded border border-gray-300 bg-white hover:bg-gray-100 text-sm font-medium">
+  ← Kembali ke Dashboard
+</a>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-800">
   <div class="max-w-7xl mx-auto p-6">
